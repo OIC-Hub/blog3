@@ -20,8 +20,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
+ Auth::Routes(['verify' => true]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+Route::middleware(['admin', 'auth', 'verified'])->group(function(){
 Route::get('/users/admin', [UsersController::class, 'index'])->name('admin.index');
 Route::get('/users', [UsersController::class, 'user'])->name('users.index');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+});
